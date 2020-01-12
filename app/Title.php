@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Title extends Model
 {
-    //
+    
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
+    
+    public function author()
+    {
+        return $this->belongsTo('App\Author');
+    }
 }

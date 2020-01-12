@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
 
-            $table->unsignedBigInteger('role_id')->nullable();
+            $table->unsignedBigInteger('role_id')->nullable()->default(2);
             $table->foreign('role_id')
                 ->references('id')->on('roles')
                 ->onDelete('set null')

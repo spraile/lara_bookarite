@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-12 col-md-8 mr-auto">
+            <div class="col-12 col-md-8 mx-auto">
             <h3>Edit {{$category->name}}</h3>
             <hr>
             <form action="{{route('categories.update',['category' => $category->id])}}" method="post">

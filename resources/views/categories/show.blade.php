@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-8 mx-auto">
             <h3>{{$category->name}}</h3>
             <hr>
             <p>Created on @if($category->created_at){{$category->created_at->format('F d, Y')}}@else January 12, 2020 @endif</p>

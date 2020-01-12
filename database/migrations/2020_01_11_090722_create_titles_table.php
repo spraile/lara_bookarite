@@ -16,9 +16,20 @@ class CreateTitlesTable extends Migration
         Schema::create('titles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->integer('edition')->default(1);
+            $table->integer('stock')->default(0);
+            $table->string('image');
+
+            
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')
                 ->references('id')->on('categories')
+                ->onDelete('set null')
+                ->onUpdate('set null');
+
+            $table->unsignedBigInteger('author_id')->nullable();
+            $table->foreign('author_id')
+                ->references('id')->on('authors')
                 ->onDelete('set null')
                 ->onUpdate('set null');
                             

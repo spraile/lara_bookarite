@@ -14,7 +14,11 @@ class TitleSeeder extends Seeder
     {
         DB::table('titles')->insert ([
             'name' => 'Leithold Calculus',
-            'category_id' => 1
+            'edition' => 1,
+            'category_id' => 1,
+            'author_id' => 1,
+            'image' => 'titles/5LvnvDCL1u7WAikR4qe03IIgHGeqjox4IzcMuBdr.jpeg',
+            'stock' => 0
            ]);
     }
 }

@@ -14,10 +14,13 @@ class CategorySeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert ([
-            'name' => 'Academic'
+            'name' => 'Hardcover'
         ]);
         DB::table('categories')->insert ([
-            'name' => 'Non-academic'
+            'name' => 'Paperback'
+        ]);
+        DB::table('categories')->insert ([
+            'name' => 'Loose leaf'
         ]);
     }
 }
