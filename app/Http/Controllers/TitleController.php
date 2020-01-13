@@ -42,8 +42,10 @@ class TitleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'string|required|max:50|unique:categories,name',
-            'author' => 'string|required|max:50',
+            'name' => 'required|string|max:50|unique:categories,name',
+            'author' => 'required|string|max:50',
+            'edition' => 'required',
+            'isbn' => 'required|numeric|digits:13',
             'category-id' => 'required',
             'image' => 'required|image|max:5000'
         ]);
@@ -51,6 +53,7 @@ class TitleController extends Controller
         $title = new Title;
         $title->name = $request->input('name');
         $title->edition = $request->input('edition');
+        $title->isbn = $request->input('isbn');
         $title->category_id = $request->input('category-id');
 
         $author = Author::all()->firstWhere('name',$request->input('author'));
@@ -81,7 +84,8 @@ class TitleController extends Controller
      */
     public function show(Title $title)
     {
-        //
+        return view('titles.show')
+    	->with('title',$title);
     }
 
     /**
@@ -92,7 +96,8 @@ class TitleController extends Controller
      */
     public function edit(Title $title)
     {
-        //
+        return view('titles.edit')->with('title',$title)->with('categories',Category::all());
+
     }
 
     /**
@@ -104,7 +109,39 @@ class TitleController extends Controller
      */
     public function update(Request $request, Title $title)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:50|unique:categories,name',
+            'author' => 'required|string|max:50',
+            'edition' => 'required',
+            'isbn' => 'required|numeric|digits:13',
+            'category-id' => 'required',
+            'image' => 'image|max:5000'
+        ]);
+
+        $title->name = $request->input('name');
+        $title->edition = $request->input('edition');
+        $title->isbn = $request->input('isbn');
+        $title->category_id = $request->input('category-id');
+
+        $author = Author::all()->firstWhere('name',$request->input('author'));
+        if (!$author) {
+            $author = new Author;
+            $author->name = $request->input('author');
+            $author->save();
+            // $title->author_id = $author->id;
+        } 
+        $title->author_id = $author->id;
+        if($request->image){
+        $title->image = $request->image->store('titles');
+        }
+        // $title->author_id = $request->input('author');
+        $title->save();
+
+
+        // return str_ordinal($title->edition)." ".$title->name;
+        // return $author->id;
+        // return $title->author_id;
+        return redirect(route('titles.index'));
     }
 
     /**
@@ -115,6 +152,8 @@ class TitleController extends Controller
      */
     public function destroy(Title $title)
     {
-        //
+        $title->delete();
+    	return redirect(route('titles.index'));
+
     }
 }

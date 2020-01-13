@@ -18,6 +18,7 @@ class CreateTitlesTable extends Migration
             $table->string('name');
             $table->integer('edition')->default(1);
             $table->integer('stock')->default(0);
+            $table->string('isbn');
             $table->string('image');
 
             
@@ -30,6 +31,12 @@ class CreateTitlesTable extends Migration
             $table->unsignedBigInteger('author_id')->nullable();
             $table->foreign('author_id')
                 ->references('id')->on('authors')
+                ->onDelete('set null')
+                ->onUpdate('set null');
+
+            $table->unsignedBigInteger('title_status_id')->nullable()->default(2);
+            $table->foreign('title_status_id')
+                ->references('id')->on('title_statuses')
                 ->onDelete('set null')
                 ->onUpdate('set null');
                             

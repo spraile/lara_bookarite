@@ -16,4 +16,9 @@ class Title extends Model
     {
         return $this->belongsTo('App\Author');
     }
+    
+    public function title_status()
+    {
+        return $this->belongsTo('App\TitleStatus');
+    }
 }
