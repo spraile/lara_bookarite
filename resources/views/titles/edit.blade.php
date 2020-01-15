@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-8 mx-auto">
+        <div class="col-12 col-lg-8 mx-auto">
             <h3>Add Title</h3>
             <hr>
             <form action="{{route('titles.update',['title'=>$title->id])}}" method="post" enctype="multipart/form-data">
@@ -13,6 +13,7 @@
                     <label for="name">Title</label>
 
                 <input type="text" name="name" id="name" class="form-control-sm" placeholder="Book title" value="{{$title->name}}">
+                <div></div>
                 <label for="edition">Edition</label>
                 <input type="number" name="edition" id="edition" class="form-control-sm" placeholder="Edition" min="1" value="{{$title->edition}}">       
                 @if($errors->hasAny('name','edition'))

@@ -4,6 +4,7 @@
   <div class="row no-gutters ">
     <div class="col-md-3">
       <img src="/public/{{$title->image}}" class="card-img" alt="...">
+      {{-- <img src="/titles/{{$title->image}}" class="card-img" alt="..."> --}}
     </div>
     <div class="col-md-6">
       <div class="card-body">
