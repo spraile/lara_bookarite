@@ -21,4 +21,9 @@ class Title extends Model
     {
         return $this->belongsTo('App\TitleStatus');
     }
+
+    public function assets()
+    {
+        return $this->hasMany('App\Asset');
+    }
 }

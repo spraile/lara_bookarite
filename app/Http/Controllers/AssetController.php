@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\Title;
+use Str;
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
@@ -24,7 +26,7 @@ class AssetController extends Controller
      */
     public function create()
     {
-        //
+        return view('assets.create')->with('titles',Title::all());
     }
 
     /**
@@ -35,8 +37,27 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required',
+            'qty' => 'required|min:1'
+        ]);
+
+        for($i = 0; $i < $request->input('qty'); $i++) {
+           $asset = new asset;
+           $asset->title_id = $request->input('name');
+           $asset->asset_status_id = 1;
+           $asset->save();
+
+           $title = Title::find($request->input('name'));
+           $asset->asset_code = sprintf("%03s",strval($asset->title_id)).sprintf("%04s", strval($asset->id));
+
+           $asset->save();
+       }
+       
+
+        // return redirect(route('assets.index'));
+       return "Success";
+   }
 
     /**
      * Display the specified resource.

@@ -12,11 +12,15 @@ class AssetStatusSeeder extends Seeder
     public function run()
     {
         DB::table('asset_statuses')->insert ([
-            'name' => 'In stock'
+            'name' => 'Available'
         ]);
     
         DB::table('asset_statuses')->insert ([
-            'name' => 'Out of stock'
+            'name' => 'In use'
+        ]);
+
+        DB::table('asset_statuses')->insert ([
+            'name' => 'Temporarily unavailable'
         ]);
     }
 }
