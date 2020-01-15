@@ -64,7 +64,7 @@ class TitleController extends Controller
             // $title->author_id = $author->id;
         } 
         $title->author_id = $author->id;
-        $title->image = $request->image->store('titles');
+        $title->image = $request->image->store('public');
 
         // $title->author_id = $request->input('author');
         $title->save();
