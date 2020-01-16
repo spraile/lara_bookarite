@@ -6,6 +6,7 @@ use App\Title;
 use Illuminate\Http\Request;
 use App\Author;
 use App\Category;
+use App\Asset;
 
 class TitleController extends Controller
 {
@@ -16,8 +17,20 @@ class TitleController extends Controller
      */
     public function index()
     {
+
+        $titles = Title::all();
+        foreach($titles as $title){
+
+            $stocks = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1);
+            $title->stock = count($stocks);
+            $title->save();
+            if (count($stocks)) {
+                $title->title_status_id = 1;
+            }
+        }
+
         return view("titles.index")
-        ->with('titles',Title::all())
+        ->with('titles',$titles)
         ->with('categories',Category::all());
     }
 
@@ -85,8 +98,15 @@ class TitleController extends Controller
      */
     public function show(Title $title)
     {
+
+            $stocks = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1);
+            $title->stock = count($stocks);
+            if (count($stocks)) {
+                $title->title_status_id = 1;
+            }
+
         return view('titles.show')
-    	->with('title',$title);
+        ->with('title',$title);
     }
 
     /**
@@ -110,33 +130,35 @@ class TitleController extends Controller
      */
     public function update(Request $request, Title $title)
     {
-        $request->validate([
-            'name' => 'required|string|max:50|unique:categories,name',
-            'author' => 'required|string|max:50',
-            'edition' => 'required',
-            'isbn' => 'required|numeric|digits:13',
-            'category-id' => 'required',
-            'image' => 'image|max:5000'
-        ]);
+        if ($request) {
+            $request->validate([
+                'name' => 'required|string|max:50|unique:categories,name',
+                'author' => 'required|string|max:50',
+                'edition' => 'required',
+                'isbn' => 'required|numeric|digits:13',
+                'category-id' => 'required',
+                'image' => 'image|max:5000'
+            ]);
 
-        $title->name = $request->input('name');
-        $title->edition = $request->input('edition');
-        $title->isbn = $request->input('isbn');
-        $title->category_id = $request->input('category-id');
+            $title->name = $request->input('name');
+            $title->edition = $request->input('edition');
+            $title->isbn = $request->input('isbn');
+            $title->category_id = $request->input('category-id');
 
-        $author = Author::all()->firstWhere('name',$request->input('author'));
-        if (!$author) {
-            $author = new Author;
-            $author->name = $request->input('author');
-            $author->save();
+            $author = Author::all()->firstWhere('name',$request->input('author'));
+            if (!$author) {
+                $author = new Author;
+                $author->name = $request->input('author');
+                $author->save();
             // $title->author_id = $author->id;
-        } 
-        $title->author_id = $author->id;
-        if($request->image){
-        $title->image = $request->image->store('public');
-        }
+            } 
+            $title->author_id = $author->id;
+            if($request->image){
+                $title->image = $request->image->store('public');
+            }
         // $title->author_id = $request->input('author');
-        $title->save();
+            $title->save();
+        }
 
 
         // return str_ordinal($title->edition)." ".$title->name;
@@ -154,7 +176,7 @@ class TitleController extends Controller
     public function destroy(Title $title)
     {
         $title->delete();
-    	return redirect(route('titles.index'));
+        return redirect(route('titles.index'));
 
     }
 }

@@ -38,7 +38,24 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('titles.index') }}">Books</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('titles.create') }}">Add Books</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('assets.index') }}">Assets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('assets.create') }}">Add Assets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('categories.create') }}">Add Categories</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

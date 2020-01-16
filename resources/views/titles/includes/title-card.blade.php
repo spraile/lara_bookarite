@@ -21,6 +21,7 @@
     </div>
     <div class="col-md-3">
       <div class="card-body">
+        <p class="card-text my-0"><strong>Stock: </strong>{{$title->stock}}</p>
         <a href="{{route('titles.edit',['title' => $title->id])}}"><button class="btn-sm btn-warning w-100 mb-1">Edit book details</button></a>   
         <form action="{{route('titles.destroy',['title' => $title->id])}}" method="POST">
           @csrf

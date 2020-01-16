@@ -22,5 +22,9 @@ class AssetStatusSeeder extends Seeder
         DB::table('asset_statuses')->insert ([
             'name' => 'Temporarily unavailable'
         ]);
+
+        DB::table('asset_statuses')->insert ([
+            'name' => 'Decomissioned'
+        ]);
     }
 }

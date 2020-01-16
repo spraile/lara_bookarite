@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Asset;
 use App\Title;
+use App\AssetStatus;
 use Str;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,8 @@ class AssetController extends Controller
      */
     public function index()
     {
+        $assets = Asset::orderBy('title_id','asc')->orderBy('asset_code','asc')->get();
+       return view('assets.index')->with('assets',$assets);
         //
     }
 
@@ -54,9 +57,18 @@ class AssetController extends Controller
            $asset->save();
        }
        
+       $stocks = Asset::all()->whereIn('title_id',$request->input('name'))->whereIn('asset_status_id',1);
+       $title = Title::find($request->input('name'));
+       $title->stock = count($stocks);
+
+       if (count($stocks)) {
+            $title->title_status_id = 1;
+       }
+
+
 
         // return redirect(route('assets.index'));
-       return "Success";
+       return redirect(route('assets.index'));
    }
 
     /**
@@ -67,7 +79,7 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
-        //
+        return view('assets.show')->with('asset',$asset);
     }
 
     /**
@@ -78,7 +90,9 @@ class AssetController extends Controller
      */
     public function edit(Asset $asset)
     {
-        //
+        // return "Edit";
+        return view('assets.edit')->with('asset',$asset)->with('statuses',AssetStatus::all());
+        
     }
 
     /**
@@ -90,7 +104,15 @@ class AssetController extends Controller
      */
     public function update(Request $request, Asset $asset)
     {
-        //
+         if ($request) {
+            $request->validate([
+                'status' => 'required'
+            ]);
+        }
+
+        $asset->asset_status_id = $request->input('status');
+        $asset->save();
+        return view('assets.show')->with('asset',$asset);
     }
 
     /**
@@ -101,6 +123,7 @@ class AssetController extends Controller
      */
     public function destroy(Asset $asset)
     {
-        //
+        $asset->delete();
+        return redirect(route('assets.index'));
     }
 }
