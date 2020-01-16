@@ -14,9 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::delete('/bags/empty','BagController@empty')->name('bags.empty');
+
 Route::resource('categories', 'CategoryController');
 Route::resource('titles', 'TitleController');
 Route::resource('assets', 'AssetController');
+Route::resource('bags','BagController');
+
 
 Auth::routes();
 
