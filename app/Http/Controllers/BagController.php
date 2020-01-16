@@ -21,10 +21,15 @@ class BagController extends Controller
             $title_ids = array_keys(Session::get('bag'));
         // query on database
             $titles = Title::find($title_ids);
+            // dd($titles);
             // $total = 0;
             foreach ($titles as $title) {
-                $title->duration = Session::get("bag.$title->id");
+                // $title->needed = date('Y-m-d',strtotime(Session::get("bag.n$title->id")));
+                $title->needed = Session::get("bag.$title->id.0");
+                $title->returned = Session::get("bag.$title->id.1");
+                // $title->returned = date('Y-m-d',strtotime(Session::get("bag.r$title->id")));
             }
+            // dd(Session::get("bag.r2"));
             return view('bags.index')->with('titles',$titles);
         } else {
             return view('bags.index');
@@ -86,13 +91,17 @@ class BagController extends Controller
     public function update(Request $request, $bag)
     {
         $request->validate([
-            'duration' => 'required|min:1'
+            'needed' => 'required|date|after:today',
+            'returned' => 'required|date|after:today'
 
         ]);
-        $duration = $request->input('duration');
+        $needed = $request->input('needed');
+        $returned = $request->input('returned');
         // store to session_abort()
+        
+        $request->session()->put("bag.$bag", [$needed, $returned]);
+        // $request->session()->put("bag.$bag", $returned);
 
-        $request->session()->put("bag.$bag", $duration);
         // dd(Session::get('bag'));
         return redirect(route('bags.index'));
 

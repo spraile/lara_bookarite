@@ -4,10 +4,10 @@
 
 <div class="container">
 	<h3>My Bag</h3>
-	{{-- @if(Session::has('status'))
+	@if(Session::has('status'))
 	<div class="col-12 alert alert-success text-center">{{Session::get('status')}}</div>
 	@endif
-	@include('titles.includes.error-status') --}}
+	{{-- @include('titles.includes.error-status') --}}
 	<div class="row">
 		<div class="col-12">
 		</div>
@@ -27,8 +27,8 @@
 						@foreach($titles as $title)
 						<tr>
 							<th scope="row">{{$title->name}}</th>
-							<td><span>Date needed</span></td>
-							<td>Date returned</td>						
+							<td><span>{{$title->needed}}</span></td>
+							<td>{{$title->returned}}</td>						
 							
 							<td>
 								<form action="{{route('bags.destroy', ['bag'=>$title->id])}}" method="POST">
