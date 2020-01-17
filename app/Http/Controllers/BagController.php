@@ -23,12 +23,14 @@ class BagController extends Controller
             $titles = Title::find($title_ids);
             // dd($titles);
             // $total = 0;
-            foreach ($titles as $title) {
-                // $title->needed = date('Y-m-d',strtotime(Session::get("bag.n$title->id")));
-                $title->needed = Session::get("bag.$title->id.0");
-                $title->returned = Session::get("bag.$title->id.1");
-                // $title->returned = date('Y-m-d',strtotime(Session::get("bag.r$title->id")));
-            }
+
+            // foreach ($titles as $title) {
+            //     // $title->needed = date('Y-m-d',strtotime(Session::get("bag.n$title->id")));
+            //     $title->needed = Session::get("bag.$title->id.0");
+            //     $title->returned = Session::get("bag.$title->id.1");
+            //     // $title->returned = date('Y-m-d',strtotime(Session::get("bag.r$title->id")));
+            // }
+            
             // dd(Session::get("bag.r2"));
             return view('bags.index')->with('titles',$titles);
         } else {
@@ -90,16 +92,17 @@ class BagController extends Controller
      */
     public function update(Request $request, $bag)
     {
-        $request->validate([
-            'needed' => 'required|date|after:today',
-            'returned' => 'required|date|after:today'
+        // $request->validate([
+        //     'needed' => 'required|date|after:yesterday',
+        //     'returned' => 'required|date|after:yesterday'
 
-        ]);
-        $needed = $request->input('needed');
-        $returned = $request->input('returned');
+        // ]);
+        // $needed = $request->input('needed');
+        // dd($needed);
+        // $returned = $request->input('returned');
         // store to session_abort()
         
-        $request->session()->put("bag.$bag", [$needed, $returned]);
+        $request->session()->put("bag.$bag");
         // $request->session()->put("bag.$bag", $returned);
 
         // dd(Session::get('bag'));

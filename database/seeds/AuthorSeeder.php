@@ -14,5 +14,8 @@ class AuthorSeeder extends Seeder
         DB::table('authors')->insert ([
             'name' => 'Louis Leithold'
         ]);
+        DB::table('authors')->insert ([
+            'name' => 'El Wakil'
+        ]);
     }
 }

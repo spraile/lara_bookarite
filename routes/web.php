@@ -21,6 +21,7 @@ Route::resource('categories', 'CategoryController');
 Route::resource('titles', 'TitleController');
 Route::resource('assets', 'AssetController');
 Route::resource('bags','BagController');
+Route::resource('tickets','TicketController');
 
 
 Auth::routes();

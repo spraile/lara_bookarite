@@ -39,28 +39,22 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="rentLabel">Borrow {{$title->name}}</h5>
+        <h5 class="modal-title" id="rentLabel">Add {{$title->name}} to BookBag</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{route('bags.update',['bag' => $title->id])}}" method="POST">
+        <p>Do you want to add <strong>{{$title->name}}</strong> to BookBag?</p>
+      </div>
+      <div class="modal-footer">
+        <form action="{{route('bags.update',['bag' => $title->id])}}" method="post">
           @csrf
           @method('PUT')
-          <div class="form-group">
-            <label for="needed" class="my-2">Date needed:</label>
-            <input type="date" name="needed" id="needed" class="form-control-sm my-2">
-          </div>
-          <div class="form-group">
-            <label for="returned" class="my-2">Date returned:</label>
-            <input type="date" name="returned" id="returned" class="form-control-sm my-2">
-          </div>
-          <button class="btn-sm btn-primary">Add to BookBag</button>
+          <button type="submit" class="btn-sm btn-primary">Add to BookBag</button>
         </form>
-      </div>
-      <div class="modal-footer mr-auto">
-        <small>The duration of borrowing starts upon the request approval date.</small>
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
       
     </div>

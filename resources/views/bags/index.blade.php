@@ -5,31 +5,26 @@
 <div class="container">
 	<h3>My Bag</h3>
 	@if(Session::has('status'))
-	<div class="col-12 alert alert-success text-center">{{Session::get('status')}}</div>
+	<div class="alert alert-success text-center w-100">{{Session::get('status')}}</div>
 	@endif
 	{{-- @include('titles.includes.error-status') --}}
 	<div class="row">
 		<div class="col-12">
 		</div>
-		<div class="col-12">
-	@if(Session::has('bag'))
+		@if(Session::has('bag'))
+		<div class="col-12 col-md-8">
 			{{-- table --}}
 			<div class="table-responsive">
 				<table class="table table-striped table-hover text-center">
 					<thead>
-						<th scope="col">Book</th>
-						<th scope="col">Date needed</th>
-						<th scope="col">Date returned</th>
+						<th scope="col" colspan="3">Book</th>
 						<th scope="col">Actions</th>
 					</thead>
 					<tbody>
 						{{-- start of row --}}
 						@foreach($titles as $title)
 						<tr>
-							<th scope="row">{{$title->name}}</th>
-							<td><span>{{$title->needed}}</span></td>
-							<td>{{$title->returned}}</td>						
-							
+							<th scope="row" colspan="3">{{$title->name}}</th>
 							<td>
 								<form action="{{route('bags.destroy', ['bag'=>$title->id])}}" method="POST">
 									@csrf
@@ -37,6 +32,8 @@
 									<button class="btn-sm btn-danger">Remove from bag</button>
 								</form>
 							</td>
+
+							
 						</tr>
 						@endforeach
 						{{-- end of row --}}
@@ -52,33 +49,44 @@
 							</td>
 							<td></td>
 							<td></td>
-							<td>
-								{{-- @can('isLogged') --}}
-								<form action="
-								{{-- {{route('tickets.store')}} --}}
-								" method="POST">
-									@csrf
-									<button class="btn-sm btn-primary mb-2">Send request</button>
-								</form>
-								<div id="paypal-btn"></div>
-								{{-- @endcan --}}
-								{{-- @cannot('isLogged') --}}
-					{{-- 				<a href="{{route('login')}}"><button class="btn-sm btn-primary w-100">Send request</button></a> --}}
+							<td></td>
+								
+							<div id="paypal-btn"></div>
+							{{-- @endcan --}}
+							{{-- @cannot('isLogged') --}}
+							{{-- 				<a href="{{route('login')}}"><button class="btn-sm btn-primary w-100">Send request</button></a> --}}
 
-								{{-- @endcannot	 --}}
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-			{{-- end of table --}}
+							{{-- @endcannot	 --}}
+						</td>
+					</tr>
+				</tfoot>
+			</table>
 		</div>
 	</div>
-	@else
-	<div class="alert alert-info text-center">bag is empty</div>
-	@endif
+	<div class="col-12 col-md-4 border-left">
+		{{-- <h5>Request Form</h5> --}}
+		{{-- <hr> --}}
+		<form action="{{route('tickets.store')}}" method="post" >
+			@csrf
+			<div class="form-group">
+				<label for="needed" class="my-2">Date needed:</label>
+				<input type="date" name="needed" id="needed" class="form-control-sm my-2" min="{{date('Y-m-d')}}">
+			</div>
+			<div class="form-group">
+				<label for="returned" class="my-2">Date returned:</label>
+				<input type="date" name="returned" id="returned" class="form-control-sm my-2" min="{{date('Y-m-d')}}">
+			</div>
+			<button class="btn-sm btn-primary">Submit request</button>
+		</form>
+	</form>
+</div>
+{{-- end of table --}}
+@else
+<div class="alert alert-info text-center mx-auto w-100">bag is empty</div>
+@endif
+</div>
 </div>
 
-	
+
 
 @endsection
