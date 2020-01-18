@@ -39,10 +39,29 @@
 							<td>{{$ticket->returned_on}}</td>
 							<td>{{$ticket->ticket_status->name}}</td>
 							<td>
-								<button class="btn-sm btn-success">Accept</button>
-								<button class="btn-sm btn-danger">Reject</button>
-								<button class="btn-sm btn-primary">Complete</button>
-								<button class="btn-sm btn-secondary">Cancel</button>
+								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Accept" method="POST">
+									@csrf
+									@method('PUT')
+									<button class="btn-sm btn-success mb-1 w-100">Accept</button>
+								</form>
+								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Reject" method="POST">
+									@csrf
+									@method('PUT')
+									<button class="btn-sm btn-danger mb-1 w-100">Reject</button>
+
+								</form>
+
+								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Complete" method="post">
+									@csrf
+									@method('PUT')
+									<button class="btn-sm btn-primary mb-1 w-100">Complete</button>
+								</form>
+
+								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Cancel" method="post">
+									@csrf
+									@method('put')
+									<button class="btn-sm btn-secondary mb-1 w-100">Cancel</button>
+								</form>
 							</td>
 							<td>{{$ticket->user->name}}</td>
 						</tr>

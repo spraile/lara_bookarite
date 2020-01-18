@@ -14,4 +14,15 @@ class Asset extends Model
     {
         return $this->belongsTo('App\AssetStatus');
     }
+    
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function tickets()
+    {
+    	return $this->belongsToMany('App\Ticket','asset_ticket')
+    		->withPivot('title');
+    }
 }

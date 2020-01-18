@@ -60,6 +60,16 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        {{-- requests --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('tickets.index') }}">Requests</a>
+                        </li>
+
+                        {{-- bookbag --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('bags.index') }}">BookBag <span class="badge badge-secondary">0</span></a>
+                        </li>
+
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">

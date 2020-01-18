@@ -100,7 +100,41 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        //
+
+        $set = $request->query('set');
+        switch ($set) {
+            case 'Accept':
+                $ticket->ticket_status_id = 2;
+                $ticket->save();
+
+                foreach ($ticket->assets as $asset ) {
+                    $asset->asset_status_id = 2;
+                    $asset->user_id = $ticket->user_id;
+                    $asset->save();
+                }
+                
+            break;
+            case 'Reject':
+                $ticket->ticket_status_id = 3;
+                $ticket->save();
+
+            break;
+            case 'Complete':
+                $ticket->ticket_status_id = 4;
+                $ticket->user_id = null;
+                $ticket->save();
+                foreach ($ticket->assets as $asset ) {
+                    $asset->asset_status_id = 1;
+                    $asset->save();
+                }
+            break;
+            case 'Cancel':
+                $ticket->ticket_status_id = 5;
+                $ticket->save();
+            break;
+        }
+        // return redirect(route('tickets.show',['ticket' => $ticket->id]));
+        return redirect(route('tickets.index'));
     }
 
     /**

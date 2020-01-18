@@ -23,6 +23,12 @@ class CreateAssetsTable extends Migration
                 ->onDelete('set null')
                 ->onUpdate('set null');
 
+            $table->unsignedBigInteger('user_id')->nullable()->default(null);
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('set null')
+                ->onUpdate('set null');
+
             $table->unsignedBigInteger('title_id')->nullable();
             $table->foreign('title_id')
                 ->references('id')->on('titles')
