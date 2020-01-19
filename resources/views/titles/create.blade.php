@@ -12,14 +12,21 @@
                     <label for="name">Title</label>
                     
                     <input type="text" name="name" id="name" class="form-control-sm" placeholder="Book title" value="{{old('name')}}">
+                    @if($errors->has('name'))
+                    
+                    <p class="text-danger"><span class="small" >{{ $errors->first('name')}}</span></p>
+                    
+                    @endif
                     <div></div>
+                </div>
+                <div class="form-group">
                     <label for="edition">Edition</label>
                     
                     <input type="number" name="edition" id="edition" class="form-control-sm" placeholder="Edition" min="1" value="{{old('edition')}}">       
                     
-                    @if($errors->hasAny('name','edition'))
+                    @if($errors->has('edition'))
                     
-                    <p class="text-danger"><span class="small" >{{ $errors->first('name')}}</span> <span class="small" >{{ $errors->first('edition')}}</span></p>
+                    <p class="text-danger"><span class="small" >{{ $errors->first('edition')}}</span></p>
                     
                     @endif
                 </div>

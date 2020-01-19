@@ -121,10 +121,11 @@ class TicketController extends Controller
             break;
             case 'Complete':
                 $ticket->ticket_status_id = 4;
-                $ticket->user_id = null;
                 $ticket->save();
                 foreach ($ticket->assets as $asset ) {
                     $asset->asset_status_id = 1;
+                    $asset->user_id = null;
+
                     $asset->save();
                 }
             break;

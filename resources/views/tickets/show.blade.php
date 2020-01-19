@@ -16,6 +16,7 @@
 									<select name="status" id="status">
 										@foreach($ticket_statuses as $ticket_status)
 										<option value="{{$ticket_status->id}}" {{$ticket->ticket_status->id == $ticket_status->id ? "selected" : ""}}>{{$ticket_status->name}}</option>
+										<button class="btn-sm btn-primary">Update</button>
 										@endforeach
 									</select>
 								</form>

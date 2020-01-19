@@ -39,6 +39,8 @@
 							<td>{{$ticket->returned_on}}</td>
 							<td>{{$ticket->ticket_status->name}}</td>
 							<td>
+								@can('isAdmin')
+								@if ($ticket->ticket_status_id == 1)
 								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Accept" method="POST">
 									@csrf
 									@method('PUT')
@@ -50,18 +52,30 @@
 									<button class="btn-sm btn-danger mb-1 w-100">Reject</button>
 
 								</form>
-
+								@elseif($ticket->ticket_status_id == 2)
 								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Complete" method="post">
 									@csrf
 									@method('PUT')
 									<button class="btn-sm btn-primary mb-1 w-100">Complete</button>
 								</form>
-
+								
+								
+								@endif
+								@endcan
+								
+								@cannot('isAdmin')
+									
 								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Cancel" method="post">
 									@csrf
 									@method('put')
 									<button class="btn-sm btn-secondary mb-1 w-100">Cancel</button>
 								</form>
+								@endcannot
+								
+
+								
+
+								
 							</td>
 							<td>{{$ticket->user->name}}</td>
 						</tr>

@@ -15,11 +15,14 @@
         <p class="card-text my-0"><strong>Binding: </strong>{{$title->category->name}}</p>
         <p class="card-text mt-0 availability text-{{ $title->title_status_id == 1 ? "success" : "secondary"}}"><strong>{{$title->title_status->name}}</strong></p>
 
+        @cannot('isAdmin')
         <button class="btn-sm {{ $title->title_status_id == 1 ? "btn-primary" : ""}} "{{ $title->title_status_id == 1 ? "" : "disabled"}} data-toggle="modal" data-target="#rent{{$title->id}}" data-id="{{$title->id}}">
           Borrow this book
         </button>
+        @endcannot
       </div>
     </div>
+    @can('isAdmin')
     <div class="col-md-3">
       <div class="card-body">
         <p class="card-text my-0"><strong>Stock: </strong>{{$title->stock}}</p>
@@ -31,6 +34,8 @@
         </form>                   
       </div>
     </div>
+      
+    @endcan
   </div>
 </div>
 
@@ -48,6 +53,7 @@
         <p>Do you want to add <strong>{{$title->name}}</strong> to BookBag?</p>
       </div>
       <div class="modal-footer">
+        @can('isLogged')        
         <form action="{{route('bags.update',['bag' => $title->id])}}" method="post">
           @csrf
           @method('PUT')
@@ -55,6 +61,10 @@
         </form>
         
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        @endcan
+        @guest
+        <a href="{{ route('login') }}"><button type="submit" class="btn-sm btn-primary">Add to BookBag</button></a>    
+        @endguest
       </div>
       
     </div>
