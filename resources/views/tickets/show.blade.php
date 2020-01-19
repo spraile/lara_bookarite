@@ -12,14 +12,21 @@
 							<th scope="row">Status</th>
 							<td>
 								{{$ticket->ticket_status->name}}
-								<form action="">
-									<select name="status" id="status">
+								@can('isAdmin')
+							<form action="{{route('tickets.update',['ticket' => $ticket->id])}}" method="POST">
+								@csrf
+								@method('PUT')
+									<select name="status" id="status" class="form-control-sm">
 										@foreach($ticket_statuses as $ticket_status)
 										<option value="{{$ticket_status->id}}" {{$ticket->ticket_status->id == $ticket_status->id ? "selected" : ""}}>{{$ticket_status->name}}</option>
-										<button class="btn-sm btn-primary">Update</button>
 										@endforeach
+
 									</select>
+									<button class="btn-sm btn-primary">Update</button>
+
 								</form>
+								@endcan
+								
 							</td>
 						</tr>
 						<tr>

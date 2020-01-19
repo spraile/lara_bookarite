@@ -19,7 +19,13 @@
 				</div>
 				<div class="form-group">
 					<label for="qty">Quantity</label>
-					<input type="number" name="qty" id="qty" min="1" class="form-control-sm">
+					<input type="number" name="quantity" id="quantity" min="1" class="form-control-sm">
+					@if($errors->has('quantity'))
+                    
+                    
+                    <p class="text-danger"><span class="small" >{{ $errors->first('quantity')}}</span></p>
+                    
+                @endif   
 				</div>
 				<button class="btn-sm btn-info p-2">Add assets</button>
 			</form>

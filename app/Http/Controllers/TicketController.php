@@ -18,9 +18,20 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Ticket $ticket)
     {
-        return view('tickets.index')->with('tickets',Ticket::all());
+        $this->authorize('viewAny',$ticket);
+
+
+        if(Auth::user()->role_id == 1) {
+
+            $tickets = Ticket::all();
+           
+        }
+        else {
+            $tickets = Ticket::all()->whereIn('user_id', [Auth::user()->id]) ;
+        }
+        return view('tickets.index')->with('tickets',$tickets);
     }
 
     /**
@@ -30,7 +41,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -39,8 +50,10 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Ticket $ticket)
     {
+        $this->authorize('create',$ticket);
+
         $ticket = new Ticket;
         $ticket->user_id = Auth::user()->id;
         $ticket->ticket_code = Auth::user()->id.Str::random(10);
@@ -76,6 +89,8 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
+        $this->authorize('view',$ticket);
+
 
          return view('tickets.show')->with('ticket',$ticket)->with('ticket_statuses',TicketStatus::all());
     }
@@ -100,39 +115,48 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
+        $this->authorize('update',$ticket);
+
 
         $set = $request->query('set');
-        switch ($set) {
-            case 'Accept':
-                $ticket->ticket_status_id = 2;
-                $ticket->save();
+        if($set) {
 
-                foreach ($ticket->assets as $asset ) {
-                    $asset->asset_status_id = 2;
-                    $asset->user_id = $ticket->user_id;
-                    $asset->save();
-                }
-                
-            break;
-            case 'Reject':
-                $ticket->ticket_status_id = 3;
-                $ticket->save();
-
-            break;
-            case 'Complete':
-                $ticket->ticket_status_id = 4;
-                $ticket->save();
-                foreach ($ticket->assets as $asset ) {
-                    $asset->asset_status_id = 1;
-                    $asset->user_id = null;
-
-                    $asset->save();
-                }
-            break;
-            case 'Cancel':
-                $ticket->ticket_status_id = 5;
-                $ticket->save();
-            break;
+            switch ($set) {
+                case 'Accept':
+                    $ticket->ticket_status_id = 2;
+                    $ticket->save();
+    
+                    foreach ($ticket->assets as $asset ) {
+                        $asset->asset_status_id = 2;
+                        $asset->user_id = $ticket->user_id;
+                        $asset->save();
+                    }
+                    
+                break;
+                case 'Reject':
+                    $ticket->ticket_status_id = 3;
+                    $ticket->save();
+    
+                break;
+                case 'Complete':
+                    $ticket->ticket_status_id = 4;
+                    $ticket->save();
+                    foreach ($ticket->assets as $asset ) {
+                        $asset->asset_status_id = 1;
+                        $asset->user_id = null;
+    
+                        $asset->save();
+                    }
+                break;
+                case 'Cancel':
+                    $ticket->ticket_status_id = 5;
+                    $ticket->save();
+                break;
+            }
+        } else {
+            $status = $request->input('status');
+            $ticket->ticket_status_id = $status;
+            $ticket->save();
         }
         // return redirect(route('tickets.show',['ticket' => $ticket->id]));
         return redirect(route('tickets.index'));

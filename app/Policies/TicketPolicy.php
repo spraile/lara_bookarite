@@ -18,7 +18,8 @@ class TicketPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->role_id === 1 || $user->role_id === 2;
+
     }
 
     /**
@@ -30,7 +31,8 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket)
     {
-        //
+        return $user->role_id === 1 || $user->id == $ticket->user->id; 
+
     }
 
     /**
@@ -41,7 +43,8 @@ class TicketPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role_id === 2;
+
     }
 
     /**
@@ -53,7 +56,8 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket)
     {
-        //
+        return $user->role_id === 1 || $user->role_id === 2;
+
     }
 
     /**

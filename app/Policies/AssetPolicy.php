@@ -18,7 +18,8 @@ class AssetPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->role_id === 1;
+
     }
 
     /**
@@ -30,7 +31,8 @@ class AssetPolicy
      */
     public function view(User $user, Asset $asset)
     {
-        //
+        return $user->role_id === 1;
+
     }
 
     /**
@@ -41,7 +43,8 @@ class AssetPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role_id === 1;
+
     }
 
     /**
@@ -53,7 +56,8 @@ class AssetPolicy
      */
     public function update(User $user, Asset $asset)
     {
-        //
+        return $user->role_id === 1;
+        
     }
 
     /**
@@ -65,7 +69,8 @@ class AssetPolicy
      */
     public function delete(User $user, Asset $asset)
     {
-        //
+        return $user->role_id === 1;
+
     }
 
     /**

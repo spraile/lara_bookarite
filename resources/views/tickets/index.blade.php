@@ -64,12 +64,13 @@
 								@endcan
 								
 								@cannot('isAdmin')
-									
+								@if ($ticket->ticket_status_id == 1)	
 								<form action="{{route('tickets.update',['ticket' => $ticket->id])}}?set=Cancel" method="post">
 									@csrf
 									@method('put')
 									<button class="btn-sm btn-secondary mb-1 w-100">Cancel</button>
 								</form>
+								@endif
 								@endcannot
 								
 

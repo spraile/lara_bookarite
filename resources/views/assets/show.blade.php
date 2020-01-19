@@ -8,8 +8,8 @@
 			<small>Asset Code: {{$asset->asset_code}}</small>
 			<hr>
 			<p>Status: {{$asset->asset_status->name}}</p>
-			@if($asset->asset_status_id == 2)
-			<p>Currently used by: user_name</p>
+			@if($asset->asset_status_id == 2 && $asset->user_id)
+			<p>Currently used by: {{$asset->user->name}}</p>
 			@endif
 			<p>Created on @if($asset->created_at){{$asset->created_at->format('F d, Y')}}@else January 12, 2020 @endif</p>
 			<p>Last updated on @if($asset->updated_at){{$asset->updated_at->format('F d, Y')}}@else January 12, 2020 @endif</p>

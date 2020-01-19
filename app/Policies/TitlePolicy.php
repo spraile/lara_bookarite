@@ -18,7 +18,7 @@ class TitlePolicy
      */
     public function viewAny(User $user)
     {
-        //
+
     }
 
     /**
@@ -30,7 +30,7 @@ class TitlePolicy
      */
     public function view(User $user, Title $title)
     {
-        //
+
     }
 
     /**
@@ -41,7 +41,8 @@ class TitlePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role_id === 1;
+
     }
 
     /**
@@ -53,7 +54,8 @@ class TitlePolicy
      */
     public function update(User $user, Title $title)
     {
-        //
+        return $user->role_id === 1;
+
     }
 
     /**
@@ -65,7 +67,8 @@ class TitlePolicy
      */
     public function delete(User $user, Title $title)
     {
-        //
+        return $user->role_id === 1;
+
     }
 
     /**

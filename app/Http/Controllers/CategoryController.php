@@ -14,6 +14,8 @@ class CategoryController extends Controller
      */
     public function index(Category $category)
     {
+        $this->authorize('viewAny',$category);
+
     	return view("categories.index")
     	->with('categories',Category::all());
     }
@@ -23,8 +25,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
+        $this->authorize('create',$category);
+
         return view('categories.create');
     }
 
@@ -34,8 +38,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Category $category)
     {
+        $this->authorize('create',$category);
+
         $request->validate([
     		'name' => 'required|string|max:50|unique:categories,name'
         ]);
@@ -54,6 +60,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $this->authorize('view',$category);
+
         return view('categories.show')
     	->with('category',$category);
     }
@@ -66,6 +74,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $this->authorize('update',$category);
+
         return view('categories.edit')
     	->with('category',$category);
     }
@@ -79,6 +89,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $this->authorize('update',$category);
+
         $request->validate([
     		'name' => 'required|string|max:50|unique:categories,name' 
     	]);
@@ -96,6 +108,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $this->authorize('delete',$category);
+
         $category->delete();
     	return redirect(route('categories.index'));
     }

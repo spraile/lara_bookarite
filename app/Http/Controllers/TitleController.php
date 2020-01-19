@@ -18,6 +18,7 @@ class TitleController extends Controller
     public function index()
     {
 
+
         $titles = Title::all();
         foreach($titles as $title){
 
@@ -39,8 +40,9 @@ class TitleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Title $title)
     {
+        $this->authorize('create',$title);
 
         return view('titles.create')->with('categories',Category::all());
 
@@ -52,8 +54,10 @@ class TitleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Title $title)
     {
+        $this->authorize('create',$title);
+
         $request->validate([
             'name' => 'required|string|max:50|unique:categories,name',
             'author' => 'required|string|max:50',
@@ -98,6 +102,7 @@ class TitleController extends Controller
      */
     public function show(Title $title)
     {
+        
 
             $stocks = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1);
             $title->stock = count($stocks);
@@ -106,7 +111,8 @@ class TitleController extends Controller
             }
 
         return view('titles.show')
-        ->with('title',$title);
+        ->with('title',$title)
+        ->with('assets',Asset::all()->whereIn('title_id',[$title->id]));
     }
 
     /**
@@ -117,6 +123,8 @@ class TitleController extends Controller
      */
     public function edit(Title $title)
     {
+        $this->authorize('update',$title);
+
         return view('titles.edit')->with('title',$title)->with('categories',Category::all());
 
     }
@@ -130,6 +138,8 @@ class TitleController extends Controller
      */
     public function update(Request $request, Title $title)
     {
+        $this->authorize('update',$title);
+
         if ($request) {
             $request->validate([
                 'name' => 'required|string|max:50|unique:categories,name',
@@ -175,6 +185,8 @@ class TitleController extends Controller
      */
     public function destroy(Title $title)
     {
+        $this->authorize('delete',$title);
+
         $title->delete();
         return redirect(route('titles.index'));
 
