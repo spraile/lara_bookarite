@@ -98,7 +98,7 @@
 </div>
 {{-- end of table --}}
 @else
-<div class="alert alert-info text-center mx-auto w-100">bag is empty</div>
+<div class="alert alert-info text-center mx-auto w-100">BookBag is empty</div>
 @endif
 </div>
 </div>

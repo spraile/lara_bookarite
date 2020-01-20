@@ -27,12 +27,15 @@
     <div class="col-md-3">
       <div class="card-body">
         <p class="card-text my-0"><strong>Stock: </strong>{{$title->stock}}</p>
-        <a href="{{route('titles.edit',['title' => $title->id])}}"><button class="btn-sm btn-warning w-100 mb-1">Edit book details</button></a>   
-        <form action="{{route('titles.destroy',['title' => $title->id])}}" method="POST">
+        <a href="{{route('titles.edit',['title' => $title->id])}}"><button class="btn-sm btn-warning w-100 mb-1">Edit book details</button></a>  
+        <button class="btn-sm btn-danger w-100 my-1 "data-toggle="modal" data-target="#remove{{$title->id}}" data-id="{{$title->id}}">
+          Remove title
+        </button> 
+        {{-- <form action="{{route('titles.destroy',['title' => $title->id])}}" method="POST">
           @csrf
           @method('DELETE')
           <button class="btn-sm btn-danger w-100 my-1">Remove title</button>
-        </form>                   
+        </form>                    --}}
       </div>
     </div>
       
@@ -68,6 +71,31 @@
         @endguest
       </div>
       
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="remove{{$title->id}}" tabindex="-1" role="dialog" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeLabel">Remove {{$title->name}}?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Please decommission and remove all assets of <strong>{{$title->name}}</strong> first before removing this title.</p>
+      </div>
+      <div class="modal-footer">
+        <form action="{{route('titles.destroy',['title' => $title->id])}}" method="POST">
+          @csrf
+          @method('DELETE')
+          <button class="btn-sm btn-danger w-100 my-1">Remove title</button>
+        </form>      
+      </div>
+      {{-- Asset::all()->whereIn('title_id', $title->id)->whereIn('asset_status_id',[1,2,3]) --}}
     </div>
   </div>
 </div>
