@@ -64,17 +64,33 @@
 		</div>
 	</div>
 	<div class="col-12 col-md-4 border-left">
+		@if($errors->has('date'))
+		
+		<p class="text-danger"><span class="small" >{{ $errors->first('date')}}</span></p>
+		
+		@endif
 		{{-- <h5>Request Form</h5> --}}
 		{{-- <hr> --}}
 		<form action="{{route('tickets.store')}}" method="post" >
 			@csrf
 			<div class="form-group">
 				<label for="needed" class="my-2">Date needed:</label>
-				<input type="date" name="needed" id="needed" class="form-control-sm my-2" min="{{date('Y-m-d')}}">
+				<input type="date" name="needed" id="needed" class="form-control-sm my-2" min="{{date('Y-m-d')}}" value="{{old('needed')}}">
+				@if($errors->has('needed'))
+				
+				<p class="text-danger"><span class="small" >{{ $errors->first('needed')}}</span></p>
+				
+				@endif
 			</div>
+
 			<div class="form-group">
 				<label for="returned" class="my-2">Date returned:</label>
-				<input type="date" name="returned" id="returned" class="form-control-sm my-2" min="{{date('Y-m-d')}}">
+				<input type="date" name="returned" id="returned" class="form-control-sm my-2" min="{{date('Y-m-d')}}" value="{{old('returned')}}">
+				@if($errors->has('returned'))
+				
+				<p class="text-danger"><span class="small" >{{ $errors->first('returned')}}</span></p>
+				
+				@endif
 			</div>
 			<button class="btn-sm btn-primary">Submit request</button>
 		</form>

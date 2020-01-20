@@ -26,4 +26,10 @@ class Title extends Model
     {
         return $this->hasMany('App\Asset');
     }
+
+    public function tickets()
+    {
+        return $this->belongsToMany('App\Ticket','asset_ticket')
+            ->withPivot('asset_code');
+    }
 }

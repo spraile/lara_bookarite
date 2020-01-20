@@ -23,6 +23,6 @@ class Asset extends Model
     public function tickets()
     {
     	return $this->belongsToMany('App\Ticket','asset_ticket')
-    		->withPivot('title');
+    		->withPivot('asset_code');
     }
 }

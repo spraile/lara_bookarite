@@ -37,7 +37,7 @@
 							<td><a href="{{route('tickets.show',['ticket' => $ticket->id])}}">{{$ticket->ticket_code}}</a></td>
 							<td>
 								@foreach($ticket->assets as $ticket_asset)
-								<p>{{$ticket_asset->title->name}} (Asset code: {{$ticket_asset->asset_code}})</p>
+								<p>{{$ticket_asset->name}} </p>
 								@endforeach
 							</td>
 							<td>{{$ticket->needed_on}}</td>

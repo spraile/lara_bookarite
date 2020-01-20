@@ -70,6 +70,16 @@ class TicketController extends Controller
     {
         $this->authorize('create',$ticket);
 
+        $request->validate([
+            'needed' => 'required',
+            'returned' => 'required'
+           
+        ]);
+
+        if($request->input('needed')>$request->input('returned')) {
+            return view('bags.index')->withErrors(["date"=>"Date returned must be later than date needed."])->with('titles',Title::find(array_keys(Session::get('bag'))));
+        }
+
         $ticket = new Ticket;
         $ticket->user_id = Auth::user()->id;
         $ticket->ticket_code = Auth::user()->id.Str::random(10);
@@ -81,12 +91,12 @@ class TicketController extends Controller
         $titles = Title::find($title_ids);
 
         foreach ($titles as $title) {
-            $asset_id = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1)->first();
+            // $asset_id = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1)->first();
             $ticket->assets()
             ->attach(
-                $asset_id->id,
+                $title->id,
                 [
-                    'title' => $title->name
+                    'asset_code' => null
                 ]
 
             );
@@ -140,13 +150,26 @@ class TicketController extends Controller
             switch ($set) {
                 case 'Accept':
                 $ticket->ticket_status_id = 2;
-                $ticket->save();
 
-                foreach ($ticket->assets as $asset ) {
+                // $ticket->assets()
+
+                foreach ($ticket->assets as $title ) {
+                    $asset = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1)->first();
                     $asset->asset_status_id = 2;
                     $asset->user_id = $ticket->user_id;
+
+                    // $title->asset_code = $asset->asset_code;
+                    // $title->save();
+                    $ticket->assets()->updateExistingPivot($title->id,(array('asset_code' => $asset->asset_code)));
+
+                    // $title->pivot->title_id = 2;
+                    // $title->save();
+                    // $title->
+                    // dd($title->asset_code);
                     $asset->save();
                 }
+                $ticket->save();
+
 
                 break;
                 case 'Reject':
@@ -157,7 +180,10 @@ class TicketController extends Controller
                 case 'Complete':
                 $ticket->ticket_status_id = 4;
                 $ticket->save();
-                foreach ($ticket->assets as $asset ) {
+                foreach ($ticket->assets as $title ) {
+                    // dd($title);
+                    $asset = Asset::all()->whereIn('asset_code',$title->pivot->asset_code)->first();
+                    // dd($asset);
                     $asset->asset_status_id = 1;
                     $asset->user_id = null;
 

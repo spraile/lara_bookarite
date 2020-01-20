@@ -22,14 +22,14 @@ class CreateAssetTicketTable extends Migration
                 ->onDelete('set null')
                 ->onUpdate('set null');
 
-            $table->unsignedBigInteger('asset_id')->nullable();
-            $table->foreign('asset_id')
-                ->references('id')->on('assets')
+            $table->unsignedBigInteger('title_id')->nullable();
+            $table->foreign('title_id')
+                ->references('id')->on('titles')
                 ->onDelete('set null')
                 ->onUpdate('set null');
 
 
-            $table->string('title')->nullable();
+            $table->string('asset_code')->nullable();
 
             $table->timestamps();
         });
