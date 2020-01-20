@@ -10,7 +10,8 @@
     
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
     <title>Bookarite</title>
-    
+    {{-- icons --}}
+    <script src="https://kit.fontawesome.com/0fd6e9a767.js" crossorigin="anonymous"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     

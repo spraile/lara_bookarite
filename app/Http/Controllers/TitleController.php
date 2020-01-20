@@ -15,11 +15,20 @@ class TitleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->query('name');
+        
+        if($search) {
+            $titles = Title::all()->whereIn('id',$search);
+            // dd($titles);
+        } else {
+            
+            $titles = Title::all();
+            // dd($titles);
+        }
 
 
-        $titles = Title::all();
         foreach($titles as $title){
 
             $stocks = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1);
