@@ -1,7 +1,7 @@
 <div class="table-responsive">
     <table class="table table-striped table-hover">
         <thead>
-            <tr>
+            <tr class="bg-info text-light">
                 <th scope="col">Asset Code</th>
                 <th scope="col">Title</th>
                 <th scope="col">Status</th>

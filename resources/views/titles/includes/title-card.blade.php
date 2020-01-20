@@ -13,7 +13,8 @@
         <p class="card-text my-0"><strong>Edition: </strong>{{str_ordinal($title->edition)}}</p>
         <p class="card-text my-0"><strong>ISBN: </strong>{{$title->isbn}}</p>
         <p class="card-text my-0"><strong>Binding: </strong>{{$title->category->name}}</p>
-        <p class="card-text mt-0 availability text-{{ $title->title_status_id == 1 ? "success" : "secondary"}}"><strong>{{$title->title_status->name}}</strong></p>
+        {{-- <p class="card-text mt-0 availability text-{{ $title->title_status_id == 1 ? "success" : "secondary"}}"><strong>{{$title->title_status->name}}</strong></p> --}}
+      <h5 class="card-text mt-0"><span class="badge badge-{{$title->title_status_id == 1 ? "success" : "secondary"}}"><strong>{{$title->title_status->name}}</strong></span></h5>
 
         @cannot('isAdmin')
         <button class="btn-sm {{ $title->title_status_id == 1 ? "btn-primary" : ""}} "{{ $title->title_status_id == 1 ? "" : "disabled"}} data-toggle="modal" data-target="#rent{{$title->id}}" data-id="{{$title->id}}">

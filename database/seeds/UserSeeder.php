@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
        ]);
       
        DB::table('users')->insert ([
-        'name' => 'Alice',
+        'name' => 'Alice Schuberg',
         'email' => 'alice@email.com',
         'password' => Hash::make('123123123'),
         'role_id' => 2
@@ -36,6 +36,27 @@ class UserSeeder extends Seeder
        DB::table('users')->insert ([
        	'name' => 'Kirito',
        	'email' => 'kirito@email.com',
+       	'password' => Hash::make('123123123'),
+        'role_id' => 2
+       ]);
+
+       DB::table('users')->insert ([
+       	'name' => 'Tiese Shtolienen',
+       	'email' => 'tiese@email.com',
+       	'password' => Hash::make('123123123'),
+        'role_id' => 2
+       ]);
+
+       DB::table('users')->insert ([
+       	'name' => 'Ronye Arabel',
+       	'email' => 'Ronye@email.com',
+       	'password' => Hash::make('123123123'),
+        'role_id' => 2
+       ]);
+
+       DB::table('users')->insert ([
+       	'name' => 'Golgorosso Balto',
+       	'email' => 'golgo@email.com',
        	'password' => Hash::make('123123123'),
         'role_id' => 2
        ]);

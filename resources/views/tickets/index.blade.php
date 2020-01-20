@@ -20,29 +20,29 @@
 		<div class="col-12 col-md-11">
 			<div class="table-responsive">
 				<table class="table table-striped table-hover">
-					<thead>
-						<tr>
+					<thead class="">
+						<tr class="bg-info text-light">
 							<th scope="col">Ticket code</th>
 							<th scope="col">Books</th>
-							<th scope="col">Date needed</th>
-							<th scope="col">Date returned</th>
-							<th scope="col">Status</th>
-							<th scope="col">Action</th>
-							<th scope="col">User</th>
+							<th scope="col" class="text-center">Date needed</th>
+							<th scope="col" class="text-center">Date returned</th>
+							<th scope="col" class="text-center">Status</th>
+							<th scope="col" class="text-center">Action</th>
+							<th scope="col" class="text-center">User</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach($tickets as $ticket)
-							<tr>
+							<tr >
 							<td><a href="{{route('tickets.show',['ticket' => $ticket->id])}}">{{$ticket->ticket_code}}</a></td>
 							<td>
 								@foreach($ticket->assets as $ticket_asset)
-								<p>{{$ticket_asset->name}} </p>
+							<p>{{$ticket_asset->name}}  <small>{{$ticket_asset->pivot->asset_code ? "(Asset code: ".$ticket_asset->pivot->asset_code.")" : ""}}</small></p>
 								@endforeach
 							</td>
-							<td>{{$ticket->needed_on}}</td>
-							<td>{{$ticket->returned_on}}</td>
-							<td>{{$ticket->ticket_status->name}}</td>
+							<td class="text-center">{{$ticket->needed_on}}</td>
+							<td class="text-center">{{$ticket->returned_on}}</td>
+							<td class="text-center"><h5><span class="badge badge-{{$ticket->ticket_status->id == 1 ? "warning" : ($ticket->ticket_status->id == 2 ? "success" : ($ticket->ticket_status->id == 3 ? "danger" : ($ticket->ticket_status->id == 4 ? "primary" : "secondary")))}}">{{$ticket->ticket_status->name}}</span></h5></td>
 							<td>
 								@can('isAdmin')
 								@if ($ticket->ticket_status_id == 1)
@@ -83,7 +83,7 @@
 
 								
 							</td>
-							<td>{{$ticket->user->name}}</td>
+							<td class="text-center">{{$ticket->user->name}}</td>
 						</tr>
 						@endforeach
 						

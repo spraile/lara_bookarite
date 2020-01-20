@@ -8,11 +8,12 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
+                background-color: #eee;
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
@@ -61,6 +62,28 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            #title {
+                text-decoration: none;
+                text-shadow: 2px 2px #ddd;
+                font-family: 'EB Garamond', serif;
+            }
+
+            #title:link {
+                color: #5BC0DE;
+            }
+
+            #title:visited {
+                color: #5BC0DE;
+            }
+
+            #title:hover {
+                color: #7bcce4;
+            }
+
+            #title:active {
+                color: #7bcce4;
+            }
         </style>
     </head>
     <body>
@@ -81,10 +104,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Bookarite
+                <a href="{{route('titles.index')}}" id="title"><span>Bookarite</span></a>
                 </div>
 
-                <div class="links">
+                {{-- <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
@@ -93,7 +116,7 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </body>

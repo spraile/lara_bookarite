@@ -77,7 +77,7 @@
                         @cannot('isAdmin')
                         {{-- bookbag --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('bags.index') }}">BookBag<span class="badge badge-secondary">{{ Session::has('bag') ? count(Session::get('bag')) : "0"}}</span></a>
+                            <a class="nav-link" href="{{ route('bags.index') }}">BookBag<span class="badge badge-light text-info">{{ Session::has('bag') ? count(Session::get('bag')) : "0"}}</span></a>
                         </li>
                         
                         @endcannot

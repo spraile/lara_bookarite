@@ -46,7 +46,7 @@
 							<td>
 								
 									@foreach($ticket->assets as $ticket_asset)
-									<p>{{$ticket_asset->name}} (Asset code: {{$ticket_asset->asset_code}})</p>
+									<p>{{$ticket_asset->name}} <small>{{$ticket_asset->pivot->asset_code ? "(Asset code: ".$ticket_asset->pivot->asset_code.")" : ""}}</small></p>
 									@endforeach
 								
 							</td>
