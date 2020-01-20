@@ -18,20 +18,36 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Ticket $ticket)
+    public function index(Ticket $ticket, Request $request)
     {
         $this->authorize('viewAny',$ticket);
 
+        $filter = $request->query('status');
 
-        if(Auth::user()->role_id == 1) {
+        if($filter) {
 
-            $tickets = Ticket::all();
-           
+            if(Auth::user()->role_id == 1) {
+
+                $tickets = Ticket::all()->whereIn('ticket_status_id',$filter);
+
+            } else {
+
+                $tickets = Ticket::all()->whereIn('user_id', [Auth::user()->id])->whereIn('ticket_status_id',$filter) ;
+            }
+        } else {
+            if(Auth::user()->role_id == 1) {
+
+                $tickets = Ticket::all();
+
+            } else {
+
+                $tickets = Ticket::all()->whereIn('user_id', [Auth::user()->id]);
+            }
         }
-        else {
-            $tickets = Ticket::all()->whereIn('user_id', [Auth::user()->id]) ;
-        }
-        return view('tickets.index')->with('tickets',$tickets);
+
+
+        
+        return view('tickets.index')->with('tickets',$tickets)->with('ticket_statuses',TicketStatus::all());
     }
 
     /**
@@ -41,7 +57,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -67,13 +83,13 @@ class TicketController extends Controller
         foreach ($titles as $title) {
             $asset_id = Asset::all()->whereIn('title_id',$title->id)->whereIn('asset_status_id',1)->first();
             $ticket->assets()
-                ->attach(
-                    $asset_id->id,
-                    [
-                        'title' => $title->name
-                    ]
+            ->attach(
+                $asset_id->id,
+                [
+                    'title' => $title->name
+                ]
 
-                );
+            );
         }
         Session::forget('bag');
 
@@ -92,7 +108,7 @@ class TicketController extends Controller
         $this->authorize('view',$ticket);
 
 
-         return view('tickets.show')->with('ticket',$ticket)->with('ticket_statuses',TicketStatus::all());
+        return view('tickets.show')->with('ticket',$ticket)->with('ticket_statuses',TicketStatus::all());
     }
 
     /**
@@ -123,34 +139,34 @@ class TicketController extends Controller
 
             switch ($set) {
                 case 'Accept':
-                    $ticket->ticket_status_id = 2;
-                    $ticket->save();
-    
-                    foreach ($ticket->assets as $asset ) {
-                        $asset->asset_status_id = 2;
-                        $asset->user_id = $ticket->user_id;
-                        $asset->save();
-                    }
-                    
+                $ticket->ticket_status_id = 2;
+                $ticket->save();
+
+                foreach ($ticket->assets as $asset ) {
+                    $asset->asset_status_id = 2;
+                    $asset->user_id = $ticket->user_id;
+                    $asset->save();
+                }
+
                 break;
                 case 'Reject':
-                    $ticket->ticket_status_id = 3;
-                    $ticket->save();
-    
+                $ticket->ticket_status_id = 3;
+                $ticket->save();
+
                 break;
                 case 'Complete':
-                    $ticket->ticket_status_id = 4;
-                    $ticket->save();
-                    foreach ($ticket->assets as $asset ) {
-                        $asset->asset_status_id = 1;
-                        $asset->user_id = null;
-    
-                        $asset->save();
-                    }
+                $ticket->ticket_status_id = 4;
+                $ticket->save();
+                foreach ($ticket->assets as $asset ) {
+                    $asset->asset_status_id = 1;
+                    $asset->user_id = null;
+
+                    $asset->save();
+                }
                 break;
                 case 'Cancel':
-                    $ticket->ticket_status_id = 5;
-                    $ticket->save();
+                $ticket->ticket_status_id = 5;
+                $ticket->save();
                 break;
             }
         } else {

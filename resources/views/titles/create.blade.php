@@ -34,7 +34,7 @@
 
                 <label for="author">Author</label>
                                
-                <input type="text" name="author" id="author" placeholder="Author" class="form-control-sm my-2">
+                <input type="text" name="author" id="author" placeholder="Author" class="form-control-sm my-2" value="{{old('author')}}">
                 
                 @if($errors->has('author'))
                 
@@ -46,7 +46,7 @@
 
                 <label for="isbn">ISBN</label>
 
-                <input type="text" name="isbn" id="isbn" class="form-control-sm" placeholder="13-digit ISBN" maxlength="13">    
+                <input type="text" name="isbn" id="isbn" class="form-control-sm" placeholder="13-digit ISBN" value="{{old('isbn')}}"" maxlength="13">    
                 
                 @if($errors->has('isbn'))
                 

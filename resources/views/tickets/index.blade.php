@@ -5,11 +5,16 @@
 	<div class="row">
 		<div class="col-12 col-md-1">
 			<div class="btn-group-vertical">
-				<button type="button" class="btn btn-secondary">Pending</button>
-				<button type="button" class="btn btn-secondary">Accepted</button>
-				<button type="button" class="btn btn-secondary">Rejected</button>
-				<button type="button" class="btn btn-secondary">Completed</button>
-				<button type="button" class="btn btn-secondary">Cancelled</button>
+				<a href="?status=" class="btn btn-outline-info border {{Request::query('status') ? "" : "active"}}">All</a>
+				@foreach($ticket_statuses as $ticket_status)
+				<a href="?status={{$ticket_status->id}}" class="btn btn-outline-info border {{Request::query('status') == $ticket_status->id ? "active" : ""}}">{{$ticket_status->name}}</a>
+
+				{{-- <form action="" class="">
+					<button class="btn btn-light d-block">{{$ticket_status->name}}</button>
+				</form> --}}
+
+				@endforeach
+
 			</div>
 		</div>
 		<div class="col-12 col-md-11">
